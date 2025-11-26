@@ -1,0 +1,183 @@
+body {
+  margin: 0;
+  font-family: "Nunito", sans-serif;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Sidebar fixa à esquerda */
+.sidebar {
+  width: 250px;
+  background: #0d2137;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 20px;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo img {
+  width: 120px;
+  height: auto;
+}
+
+.icone-logo {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+nav ul {
+  list-style: none;
+  padding: 10px;
+  margin-bottom: 230px;
+}
+
+nav ul li {
+  padding: 15px 10px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+nav ul li.active,
+nav ul li:hover {
+  background: #163764;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a:visited {
+  color: white;
+}
+
+a:hover {
+  color: #434ff0;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #7f7ff5, #b388eb);
+  border-radius: 50%;
+}
+
+.user-info p {
+  margin: 0;
+}
+
+.nome {
+  font-weight: bold;
+}
+
+.cargo {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.logout {
+  margin-left: auto;
+  color: #fff;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+/* Área principal centralizada */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+/* Bloco de documentos */
+.documentos {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.upload-section {
+  margin-bottom: 25px;
+}
+
+.upload-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
+  color: #555;
+}
+
+.upload-box {
+  border: 2px dashed #ccc;
+  border-radius: 6px;
+  height: 150px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+  cursor: pointer;
+}
+
+.upload-box:hover {
+  border-color: #888;
+}
+
+.upload-box i {
+  font-size: 32px;
+  color: #888;
+}
+
+.oval-box {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto;
+}
+
+.submit-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}

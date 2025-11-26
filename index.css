@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  background: white;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+hr {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.left-panel {
+  width: 320px;
+  background: #0e2749;
+  color: white;
+  padding: 140px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.input {
+  background: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+}
+/* CSS PARA LINKS */
+.link {
+  border: none;
+  text-decoration: none;
+  color: #fff;
+}
+
+link:visited {
+  color: white;
+}
+
+link:active {
+  color: white;
+}
+
+link:hover {
+  color: white;
+}
+
+/* FIM DO CSS PARA LINKS */
+
+.logo img {
+  width: 80px;
+  justify-content: center;
+}
+
+.logo h2 {
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.form-box {
+  width: 100%;
+  margin-top: 60px;
+}
+
+label {
+  font-size: 15px;
+  display: block;
+}
+
+input {
+  width: 100%;
+  height: 35px;
+  border-radius: 20px;
+  border: none;
+  padding: 8px;
+  margin: 8px 0 15px;
+}
+
+.cadastro {
+  font-size: 13px;
+  text-decoration: none;
+  color: white;
+  display: flex;
+  margin-bottom: 20px;
+  flex-direction: row-reverse;
+}
+
+.btn-enter {
+  border: none;
+  color: #fff;
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  background-color: #7ea9c9;
+}
+
+.recupere-senha {
+  display: flex;
+  margin-top: 15px;
+  font-size: 13px;
+  color: #e0e0e0;
+  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 45px 0;
+}
+
+.divider span {
+  height: 1px;
+  width: 100px;
+  background: white;
+}
+
+.divider p {
+  margin: 0 10px;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 10px;
+}
+
+.social-icons img {
+  width: 30px;
+  cursor: pointer;
+}
+
+.right-panel {
+  flex: 1;
+  background-image: url("piscina.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.7);
+  background-color: black;
+}
+
+.foto_login {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* Degradê sutil de baixo → cima */
+  -webkit-mask-image: linear-gradient(to top, transparent 5%, black 45%);
+  mask-image: linear-gradient(to top, transparent 5%, black 45%);
+}
