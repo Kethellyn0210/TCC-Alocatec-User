@@ -15,11 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       Store::set('usuario', [
         'id' => $dados['id_usario'],
-        'nome' => $dados['nome'],
+        'nome_usu' => $dados['nome_usu'],
         'email' => $dados['email']
       ]);
 
-      header("Location: ./pages/home/home.php");
+      header("Location: ./pages/instalacao/instalacao.php");
       exit();
     } else {
       echo "<script>alert('Usuário ou senha incorretos!');</script>";

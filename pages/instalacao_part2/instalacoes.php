@@ -38,14 +38,17 @@ $usuario = Store::get('usuario');
       </ul>
     </nav>
 
-        <div class="user">
-            <div class="avatar"></div>
-            <div class="user-info">
-                <p class="nome"><?= htmlspecialchars($usuario['nome']) ?></p>
-                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
-            </div>
-            <a href="../../login/logout.php" class="logout">SAIR</a>
-        </div>
+<div class="user" data-usuario="<?= $usuario['id'] ?>"
+     onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
+    <div class="avatar"></div>
+
+    <div class="user-info">
+        <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
+        <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
+    </div>
+
+    <a href="../../login/logout.php" class="logout">SAIR</a>
+</div>
     </aside>
 
     <div class="content">

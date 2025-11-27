@@ -41,7 +41,7 @@ $usuario = Store::get('usuario');
         <div class="user">
             <div class="avatar"></div>
             <div class="user-info">
-                <p class="nome"><?= htmlspecialchars($usuario['nome']) ?></p>
+                <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
                 <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
             </div>
             <a href="../../login/logout.php" class="logout">SAIR</a>
