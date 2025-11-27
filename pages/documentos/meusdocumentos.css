@@ -1,12 +1,15 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: "Nunito", sans-serif;
-  display: flex;
-  height: 100vh;
-  overflow: hidden;
 }
 
-/* Sidebar fixa à esquerda */
+body {
+  display: flex;
+  height: 100vh;
+}
+
 .sidebar {
   width: 250px;
   background: #0d2137;
@@ -34,8 +37,6 @@ body {
 
 nav ul {
   list-style: none;
-  padding: 10px;
-  margin-bottom: 230px;
 }
 
 nav ul li {
@@ -51,7 +52,6 @@ nav ul li:hover {
   border-radius: 8px;
   opacity: 1;
 }
-
 a {
   text-decoration: none;
   color: white;
@@ -113,7 +113,7 @@ a:hover {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 500px;
+  max-width: 1000px;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;

@@ -1,3 +1,13 @@
+<?php
+require_once '../../login/login.php';
+
+if (!Store::isLogged()) {
+    header("Location: ../../index.php");
+    exit();
+}
+
+$usuario = Store::get('usuario');
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,28 +23,28 @@
     <aside class="sidebar">
         <div class="logo">
             <div class="icone-logo">
-                <img src="img/logo.png" alt="Logo ALOCATEC">
+                <img src="./img/logo.png" alt="Logo ALOCATEC">
             </div>
             <h2>ALOCATEC</h2>
             <br>
             <hr>
         </div>
 
-       <nav>
-            <ul>
-                <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
-                <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
-                <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
-            </ul>
-        </nav>
-        
+<nav>
+      <ul>
+          <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
+          <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
+          <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
+      </ul>
+    </nav>
+
         <div class="user">
             <div class="avatar"></div>
             <div class="user-info">
-                <p class="nome">ANDRE SOARES</p>
-                <p class="cargo">USUARIO</p>
+                <p class="nome"><?= htmlspecialchars($usuario['nome']) ?></p>
+                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
             </div>
-            <a href="" class="logout">SAIR</a>
+            <a href="../../login/logout.php" class="logout">SAIR</a>
         </div>
     </aside>
 

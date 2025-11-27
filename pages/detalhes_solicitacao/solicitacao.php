@@ -13,7 +13,7 @@ $usuario = Store::get('usuario');
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALOCATEC - Solicitação</title>
+    <title>ALOCATEC</title>
     <link rel="stylesheet" href="solicitacao.css">
     <link rel="icon" href="img/logo.png">
     <link rel="shortcut icon" href="img/logo.png">
@@ -30,30 +30,28 @@ $usuario = Store::get('usuario');
             <hr>
         </div>
 
-        <nav>
-            <ul>
-                <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
-                <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
-                <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
-            </ul>
-        </nav>
+<nav>
+      <ul>
+          <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
+          <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
+          <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
+      </ul>
+    </nav>
 
         <div class="user">
             <div class="avatar"></div>
-
             <div class="user-info">
                 <p class="nome"><?= htmlspecialchars($usuario['nome']) ?></p>
                 <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
             </div>
-
             <a href="../../login/logout.php" class="logout">SAIR</a>
         </div>
     </aside>
 
-  <div class="content">
-    <div class="page">
-      <h1>Minhas Solicitações</h1>
-      <p>Lista de todas as solicitações de reserva.</p>
+     <main class="content">
+       <div class="page-title">
+      <div class="titulo-pagina">
+        <h1>Solicitação</h1>
     </div>
   <div class="acoes-topo">
   <button class="botao-acao voltar" onclick="window.location.href='../instalacoes/instalacoes.php'">

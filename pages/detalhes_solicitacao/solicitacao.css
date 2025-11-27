@@ -120,7 +120,6 @@ a:hover {
   justify-content: space-between;
 }
 
-
 .titulo-pagina {
   width: 500px;
   height: 60px;
@@ -255,13 +254,11 @@ a:hover {
   line-height: 2.2;
 }
 
-
 .card-detalhe img {
   width: 100%;
   height: 80%;
   border-radius: 15%;
 }
-
 
 .card-info {
   display: flex;
@@ -277,4 +274,3 @@ a:hover {
   margin-bottom: 5px;
   color: #000;
 }
-

@@ -1,23 +1,34 @@
+<?php
+require_once '../../login/login.php';
+
+if (!Store::isLogged()) {
+    header("Location: ../../index.php");
+    exit();
+}
+
+$usuario = Store::get('usuario');
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ALOCATEC</title>
-  <link rel="stylesheet" href="meusdocumentos.css">
-  <link rel="icon" href="img/logo.png">
-  <link rel="shortcut icon" href="img/logo.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALOCATEC</title>
+    <link rel="stylesheet" href="meusdocumentos.css">
+    <link rel="icon" href="img/logo.png">
+    <link rel="shortcut icon" href="img/logo.png">
 </head>
+
 <body>
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="icone-logo">
-        <img src="img/logo.png" alt="Logo ALOCATEC">
-      </div>
-      <h2>ALOCATEC</h2>
-      <br>
-      <hr>
-    </div>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="icone-logo">
+                <img src="./img/logo.png" alt="Logo ALOCATEC">
+            </div>
+            <h2>ALOCATEC</h2>
+            <br>
+            <hr>
+        </div>
 
 <nav>
       <ul>
@@ -27,15 +38,15 @@
       </ul>
     </nav>
 
-    <div class="user">
-      <div class="avatar"></div>
-      <div class="user-info">
-        <p class="nome">ANDRE SOARES</p>
-        <p class="cargo">USUARIO</p>
-      </div>
-      <a href="" class="logout">SAIR</a>
-    </div>
-  </aside>
+        <div class="user">
+            <div class="avatar"></div>
+            <div class="user-info">
+                <p class="nome"><?= htmlspecialchars($usuario['nome']) ?></p>
+                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
+            </div>
+            <a href="../../login/logout.php" class="logout">SAIR</a>
+        </div>
+    </aside>
 
   <main class="main-content">
     <div class="documentos">

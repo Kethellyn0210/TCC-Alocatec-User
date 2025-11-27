@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a class="cadastro" href="./pages/cadastro/cadastro.php">Cadastre-se</a>
 
             <button class="btn-enter">  
-                <a  class="link" href="./pages/home/home.php">ENTRAR</a>
+                <a  class="link" href="./pages/instalacoes/instalacoes.php">ENTRAR</a>
             </button>
 
             <a href="#" class="recupere-senha">Esqueceu sua senha?</a>
