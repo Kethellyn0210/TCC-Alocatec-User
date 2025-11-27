@@ -107,18 +107,72 @@ echo "
 ";
 ?>
 
-
       <div class="box">
-        <form class="reserva">
-          <h3>Reserve agora</h3>
-          <label>Data Escolhida</label>
-          <input type="date" />
-          <label>Hora Entrada</label>
-          <input type="time" />
-          <label>Hora Saída</label>
-          <input type="time" />
-          <button type="submit">RESERVE AGORA</button>
-        </form>
+<form class="reserva" method="POST" action="">
+    <h3>Reserve agora</h3>
+
+    <label>Data Escolhida</label>
+    <input type="date" name="data" required />
+
+    <label>Hora Entrada</label>
+    <input type="time" name="horario_inicio" required />
+
+    <label>Hora Saída</label>
+    <input type="time" name="horario_fim" required />
+
+    <label>Capacidade</label>
+    <input type="number" name="capacidade" min="1" required />
+
+
+    <button type="submit" name="salvar_reserva">RESERVE AGORA</button>
+</form>
+
+<?php
+// PROCESSAR INSERÇÃO DA RESERVA
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['salvar_reserva'])) {
+
+    $data             = $_POST['data'];
+    $horario_inicio   = $_POST['horario_inicio'];
+    $horario_fim      = $_POST['horario_fim'];
+    $capacidade       = $_POST['capacidade'];
+
+$usuario = Store::get('usuario');
+$id = $usuario['id']; 
+    $id_estabelecimento = $id_estabelecimento;    
+    $id_administrador   = 1; 
+    $id_espaco =  1;
+
+    // INSERT compatível com sua tabela
+    $sqlInsert = "INSERT INTO reserva (
+                    data,
+                    horario_inicio,
+                    horario_fim,
+                    status,
+                    capacidade,
+                    id_usuario,
+                    id_estabelecimento,
+                    id_espaco,
+                    id_administrador
+                ) VALUES (
+                    '$data',
+                    '$horario_inicio',
+                    '$horario_fim',
+                    'pendente',
+                    '$capacidade',
+                    '$id',
+                    '$id_estabelecimento',
+                    '$id_espaco',
+                    '$id_administrador'
+                )";
+
+    if (mysqli_query($conexao_servidor_bd, $sqlInsert)) {
+        echo "<script>alert('Reserva realizada com sucesso!');</script>";
+    } else {
+        echo "<script>alert('Erro ao salvar reserva: " . mysqli_error($conexao_servidor_bd) . "');</script>";
+    }
+}
+
+?>
       </div>
 
     </div> 

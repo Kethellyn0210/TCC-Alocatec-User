@@ -100,7 +100,7 @@ input {
 .btn-enter {
   border: none;
   color: #fff;
-  width: 100%;
+  width: 100px;
   height: 40px;
   border-radius: 8px;
   cursor: pointer;

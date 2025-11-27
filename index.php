@@ -1,9 +1,11 @@
 <?php
-require_once './database/conexao_bd_mysql.php';
-require_once './login/login.php';
+require_once 'database/conexao_bd_mysql.php';
+require_once 'login/login.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
   if (!empty($_POST['email']) && !empty($_POST['senha'])) {
+
     $email = $_POST['email'];
     $senha = md5($_POST['senha']);
 
@@ -11,15 +13,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conexao_servidor_bd, $sql);
 
     if ($result && mysqli_num_rows($result) > 0) {
+
       $dados = mysqli_fetch_assoc($result);
 
       Store::set('usuario', [
-        'id' => $dados['id_usario'],
+        'id' => $dados['id_usuario'],  // <-- CORRIGIDO
         'nome_usu' => $dados['nome_usu'],
         'email' => $dados['email']
       ]);
 
-      header("Location: ./pages/instalacao/instalacao.php");
+      header("Location: ./pages/instalacoes/instalacoes.php");
       exit();
     } else {
       echo "<script>alert('Usuário ou senha incorretos!');</script>";
@@ -27,6 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -41,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="container">
 
-    <aside class="left-panel">
+<aside class="left-panel">
 
         <div class="logo">
             <img src="./img/logo.png" alt="Logo">
@@ -58,9 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <a class="cadastro" href="./pages/cadastro/cadastro.php">Cadastre-se</a>
 
-            <button class="btn-enter">  
-                <a  class="link" href="./pages/instalacoes/instalacoes.php">ENTRAR</a>
-            </button>
+           <button class="btn-enter" type="submit">ENTRAR</button>
+
 
             <a href="#" class="recupere-senha">Esqueceu sua senha?</a>
         </form>

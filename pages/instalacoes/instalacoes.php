@@ -40,8 +40,6 @@ $usuario = Store::get('usuario');
 
 <div class="user" data-usuario="<?= $usuario['id'] ?>"
      onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
-    <div class="avatar"></div>
-
     <div class="user-info">
         <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
         <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
