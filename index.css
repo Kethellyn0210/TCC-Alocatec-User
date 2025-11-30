@@ -97,6 +97,12 @@ input {
   flex-direction: row-reverse;
 }
 
+.btn {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
 .btn-enter {
   border: none;
   color: #fff;

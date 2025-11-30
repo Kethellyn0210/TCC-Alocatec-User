@@ -16,6 +16,8 @@ body {
 }
 
 .sidebar {
+  position: fixed;
+  height: 100vh;
   width: 250px;
   background: #0d2137;
   color: white;

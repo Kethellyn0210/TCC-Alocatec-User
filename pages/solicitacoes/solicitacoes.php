@@ -16,10 +16,35 @@ $usuario = Store::get('usuario');
     <title>ALOCATEC</title>
     <link rel="stylesheet" href="solicitacoes.css">
     <link rel="icon" href="img/logo.png">
-    <link rel="shortcut icon" href="img/logo.png">
+    <style>
+        .erro {
+    margin: 40px auto;
+    padding: 40px 20px;
+    max-width: 500px;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.erro h3 {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.erro p {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+    </style>
 </head>
 
 <body>
+    <!-- MENU LATERAL -->
     <aside class="sidebar">
         <div class="logo">
             <div class="icone-logo">
@@ -30,26 +55,25 @@ $usuario = Store::get('usuario');
             <hr>
         </div>
 
-<nav>
-      <ul>
-          <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
-          <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
-          <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
-      </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
+                <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
+                <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
+            </ul>
+        </nav>
 
-<div class="user" data-usuario="<?= $usuario['id'] ?>"
-     onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
-    <div class="avatar"></div>
+        <div class="user" data-usuario="<?= $usuario['id'] ?>"
+             onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
+            <div class="avatar"></div>
 
-    <div class="user-info">
-        <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
-        <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
-    </div>
+            <div class="user-info">
+                <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
+                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
+            </div>
 
-    <a href="../../login/logout.php" class="logout">SAIR</a>
-</div>
-
+            <a href="../../login/logout.php" class="logout">SAIR</a>
+        </div>
     </aside>
 
     <div class="content">
@@ -58,21 +82,30 @@ $usuario = Store::get('usuario');
             <p>Lista de todas as solicitações de reserva.</p>
         </div>
 
-        <div class="filters">
+        <!-- FILTROS  -->
+        <form method="GET" class="filters">
+
             <div class="search">
                 <img src="./img/lupa.png" alt="Buscar">
-                <input placeholder="Verificar Instalações"/>
+                <input 
+                    type="text" 
+                    name="busca" 
+                    placeholder="Verificar Instalações"
+                    value="<?= isset($_GET['busca']) ? htmlspecialchars($_GET['busca']) : '' ?>"
+                />
+                <button type="submit" class="btn-buscar">Buscar</button>
             </div>
 
             <div class="chip">
-                <select>
-                    <option>Status</option>
-                    <option>Pendente</option>
-                    <option>Autorizado</option>
-                    <option>Recusado</option>
+                <select name="status" onchange="this.form.submit()">
+                    <option value="">Status</option>
+                    <option value="pendente"  <?= (isset($_GET['status']) && $_GET['status']=="pendente") ? 'selected' : '' ?>>Pendente</option>
+                    <option value="autorizado" <?= (isset($_GET['status']) && $_GET['status']=="autorizado") ? 'selected' : '' ?>>Autorizado</option>
+                    <option value="recusado"   <?= (isset($_GET['status']) && $_GET['status']=="recusado")   ? 'selected' : '' ?>>Recusado</option>
                 </select>
             </div>
-        </div>
+
+        </form>
 
         <?php
         require_once '../../database/conexao_bd_mysql.php';
@@ -82,59 +115,84 @@ $usuario = Store::get('usuario');
         $onde_estou = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
         $linha_mysql = ($onde_estou - 1) * $limite;
 
-        // Total de registros
-        $total_query = "SELECT COUNT(*) AS total FROM reserva";
+        // ---------- FILTROS ----------
+        $statusFiltro = "";
+        $buscaFiltro = "";
+
+        if (!empty($_GET['status'])) {
+            $status = mysqli_real_escape_string($conexao_servidor_bd, $_GET['status']);
+            $statusFiltro = " AND R.status = '$status' ";
+        }
+
+        if (!empty($_GET['busca'])) {
+            $busca = mysqli_real_escape_string($conexao_servidor_bd, $_GET['busca']);
+            $buscaFiltro = " AND E.nome_est LIKE '%$busca%' ";
+        }
+
+        // TOTAL PARA PAGINAÇÃO
+        $total_query = "
+            SELECT COUNT(*) AS total 
+            FROM reserva R
+            INNER JOIN estabelecimento E ON R.id_estabelecimento = E.id_estabelecimento
+            WHERE 1=1
+            $statusFiltro
+            $buscaFiltro
+        ";
+
         $total_result = mysqli_query($conexao_servidor_bd, $total_query);
         $total_row = mysqli_fetch_assoc($total_result);
         $total_pag = ceil($total_row['total'] / $limite);
-  
 
-    
-$sql_reserva = "
-    SELECT 
-        R.id_reserva,
-        R.data,
-        R.horario_inicio,
-        R.horario_fim,
-        R.status,
-        U.nome_usu AS usuario,
-        E.nome_est AS nome_est
-    FROM reserva R
-    INNER JOIN usuario U ON R.id_usuario = U.id_usuario
-    INNER JOIN estabelecimento E ON R.id_estabelecimento = E.id_estabelecimento
-    LIMIT $linha_mysql, $limite
-";
-
+        // CONSULTA PRINCIPAL
+        $sql_reserva = "
+            SELECT 
+                R.id_reserva,
+                R.data,
+                R.horario_inicio,
+                R.horario_fim,
+                R.status,
+                U.nome_usu AS usuario,
+                E.nome_est AS nome_est
+            FROM reserva R
+            INNER JOIN usuario U ON R.id_usuario = U.id_usuario
+            INNER JOIN estabelecimento E ON R.id_estabelecimento = E.id_estabelecimento
+            WHERE 1=1
+            $statusFiltro
+            $buscaFiltro
+            LIMIT $linha_mysql, $limite
+        ";
 
         $result_reserva = mysqli_query($conexao_servidor_bd, $sql_reserva);
         $dados_reserva = mysqli_fetch_all($result_reserva, MYSQLI_ASSOC);
 
+        // ---------- EXIBIÇÃO ----------
         if (!empty($dados_reserva)) {
             foreach ($dados_reserva as $reserva) {
                 echo "
                 <div class='solicitacao-card'>
                     <div class='topo-solicitacao'>
                         <div class='nome-espaco'>
-                            <h2>" . htmlspecialchars($reserva['nome_est']) . "</h2>
+                            <h2>". htmlspecialchars($reserva['nome_est']) ."</h2>
                         </div>
-                        <div class='status-solicitacao " . htmlspecialchars($reserva['status']) . "'>
-                            <h2>" . htmlspecialchars($reserva['status']) . "</h2>
+
+                        <div class='status-solicitacao ". htmlspecialchars($reserva['status']) ."'>
+                            <h2>". htmlspecialchars($reserva['status']) ."</h2>
                         </div>
                     </div>
 
                     <div class='detalhes-solicitacao'>
                         <div class='detalhe'>
                             <h3>Data:</h3>
-                            <p>" . htmlspecialchars($reserva['data']) . "</p>
+                            <p>". htmlspecialchars($reserva['data']) ."</p>
                         </div>
 
                         <div class='detalhe'>
                             <h3>Horário:</h3>
-                            <p>" . htmlspecialchars($reserva['horario_inicio']) . " - ". htmlspecialchars($reserva['horario_fim']) ."</p>
+                            <p>". htmlspecialchars($reserva['horario_inicio']) ." - ". htmlspecialchars($reserva['horario_fim']) ."</p>
                         </div>
 
-                        <button class='ver-mais-btn' 
-                                onclick=\"window.location.href='../detalhes_solicitacao/solicitacao.php?id=" . htmlspecialchars($reserva['id_reserva']) . "';\">
+                        <button class='ver-mais-btn'
+                            onclick=\"window.location.href='../detalhes_solicitacao/solicitacao.php?id=". htmlspecialchars($reserva['id_reserva']) ."'\"> 
                             Ver Mais
                         </button>
                     </div>
@@ -142,20 +200,28 @@ $sql_reserva = "
                 ";
             }
         } else {
-            echo "
-            <div class='erro'>
-                <h2>Nenhuma solicitação encontrada</h2>
-            </div>";
+            echo "<div class='erro'>
+                    <h3>Nenhuma solicitação encontrada</h3>
+                    <p>Tente alterar o filtro ou fazer uma nova busca.</p>
+                </div>
+";
         }
         ?>
 
+        <!-- PAGINAÇÃO -->
         <div class="pagination-dots">
-            <?php for ($i = 1; $i <= $total_pag; $i++): ?>
-                <a href="?page=<?php echo $i; ?>" 
-                   class="dot <?= ($i == $onde_estou) ? 'active' : '' ?>">
-                </a>
+            <?php 
+                for ($i = 1; $i <= $total_pag; $i++):
+                    $active = ($i == $onde_estou) ? "active" : "";
+                    $url = "?page=$i";
+
+                    if (!empty($_GET['status'])) $url .= "&status=".$_GET['status'];
+                    if (!empty($_GET['busca']))  $url .= "&busca=".$_GET['busca'];
+            ?>
+                <a href="<?= $url ?>" class="dot <?= $active ?>"></a>
             <?php endfor; ?>
         </div>
+
     </div>
 
 </body>

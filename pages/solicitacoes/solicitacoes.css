@@ -152,6 +152,22 @@ a:hover {
   width: 100%;
 }
 
+.btn-buscar {
+  background: #4a90e2;
+  color: #fff;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+.btn-buscar:hover {
+  background: #3b7bc1;
+}
+
 .chip {
   display: flex;
   align-items: center;

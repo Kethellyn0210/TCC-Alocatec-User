@@ -3,17 +3,22 @@ USE sistema_reservas;
 
 CREATE TABLE usuario (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome_usu VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) NOT NULL,
-    rg VARCHAR(20) NOT NULL,
+    data_nas date not null,
+    estado varchar(50) not null,
+    cidade varchar(100) not null,
+    cep varchar(8) not null,
+    cpf VARCHAR(20) NOT NULL,
     endereco VARCHAR(150) NOT NULL,
-    senha VARCHAR(255) NOT NULL
+    senha VARCHAR(255) NOT NULL,
+    genero enum('F', 'M') not null
 );
 
 CREATE TABLE administrador (
     id_administrador INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome_adm VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
     telefone VARCHAR(20) NOT NULL,
     endereco VARCHAR(150) NOT NULL,
@@ -22,7 +27,8 @@ CREATE TABLE administrador (
 
 CREATE TABLE estabelecimento (
     id_estabelecimento INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
+    nome_est VARCHAR(100) NOT NULL,
+    tipo ENUM('Vôlei','Futebol','Basquete','Piscina', 'Poliesportivo','Outros') NOT NULL,
     endereco VARCHAR(150) NOT NULL,
     numero NUMERIC(5) NOT NULL,
     bairro VARCHAR(150) NOT NULL,
@@ -41,32 +47,39 @@ CREATE TABLE estabelecimento (
 
 CREATE TABLE espaco (
     id_espaco INT AUTO_INCREMENT PRIMARY KEY,
-    tipo VARCHAR(50) NOT NULL,
     capacidade INT NOT NULL,
     cobertura ENUM('Sim', 'Não') NOT NULL,
     largura VARCHAR(10),
     comprimento VARCHAR(10),
+    descricao_adicional VARCHAR(10000) NOT NULL,
     localidade VARCHAR(100) NOT NULL,
     status ENUM('disponível', 'indisponível') NOT NULL,
     id_estabelecimento INT NOT NULL,
     FOREIGN KEY (id_estabelecimento) REFERENCES estabelecimento(id_estabelecimento)
 );
 
+drop table reserva;
 CREATE TABLE reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     data DATE NOT NULL,
-    horario TIME NOT NULL,
+    horario_inicio TIME NOT NULL,
+    horario_fim TIME NOT NULL,
     status ENUM('pendente', 'concluída', 'cancelada') NOT NULL,
+    capacidade INT NOT NULL, 
+     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
     id_usuario INT NOT NULL,
+    id_estabelecimento INT NOT NULL,
     id_espaco INT NOT NULL,
     id_administrador INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_estabelecimento) REFERENCES estabelecimento(id_estabelecimento),
     FOREIGN KEY (id_espaco) REFERENCES espaco(id_espaco),
     FOREIGN KEY (id_administrador) REFERENCES administrador(id_administrador)
 );
+SELECT * FROM usuario WHERE id_usuario = 1;
 
-INSERT INTO administrador (nome, email, telefone, endereco, senha) VALUES
-('Ana Souza', 'ana@admin.com', '11987654321', 'Rua das Flores, 100', MD5('12345')),
+INSERT INTO administrador (nome_adm, email, telefone, endereco, senha) VALUES
+('Ana Souza', 'ana@admin.com', '11987654321', 'Rua das Flores, 100',MD5('12345')),
 ('Carlos Pereira', 'carlos@admin.com', '11999887766', 'Av. Central, 200', MD5('12345')),
 ('Marcos Lima', 'marcos@admin.com', '11911223344', 'Rua Azul, 50', MD5('12345')),
 ('Patrícia Gomes', 'patricia@admin.com', '11922334455', 'Av. Verde, 75', MD5('12345')),
@@ -77,102 +90,69 @@ INSERT INTO administrador (nome, email, telefone, endereco, senha) VALUES
 ('Lucas Ribeiro', 'lucas@admin.com', '11977889900', 'Rua Rosa, 200', MD5('12345')),
 ('Carla Martins', 'carla@admin.com', '11988990011', 'Av. Prata, 250', MD5('12345'));
 
-INSERT INTO estabelecimento (nome, endereco, status, inicio, termino, disponibilidade, id_administrador) VALUES
-('Centro Esportivo Zona Sul', 'Rua Verde, 123', 'Ativo', '07:00:00', '22:00:00', 'Seg-Dom', 1),
-('Arena Norte', 'Av. Paulista, 456', 'Ativo', '08:00:00', '21:00:00', 'Seg-Sex', 2),
-('Clube Leste', 'Rua Leste, 78', 'Ativo', '06:30:00', '23:00:00', 'Seg-Dom', 3),
-('Ginásio Central', 'Av. Central, 90', 'Inativo', '08:00:00', '18:00:00', 'Seg-Sex', 4),
-('Espaço Multiuso', 'Rua Nova, 12', 'Ativo', '09:00:00', '20:00:00', 'Sab-Dom', 5),
-('Academia Oeste', 'Av. Oeste, 33', 'Ativo', '05:00:00', '23:00:00', 'Seg-Dom', 6),
-('Pavilhão Sul', 'Rua do Sol, 44', 'Inativo', '08:00:00', '19:00:00', 'Seg-Sex', 7),
-('Estádio Norte', 'Av. das Estrelas, 55', 'Ativo', '07:00:00', '22:00:00', 'Seg-Dom', 8),
-('Complexo Central', 'Rua Principal, 66', 'Ativo', '06:00:00', '22:00:00', 'Seg-Dom', 9),
-('Auditório Principal', 'Av. da Liberdade, 77', 'Ativo', '08:00:00', '20:00:00', 'Seg-Sex', 10);
+
+INSERT INTO usuario 
+(nome_usu, email, telefone, data_nas, estado, cidade, cep, cpf, endereco, senha, genero)
+VALUES
+('Ana Pereira', 'ana.pereira@example.com', '11987654321', '1995-03-12', 'São Paulo', 'São Paulo', '01001000', '12345678901', 'Rua das Flores, 120', MD5('12345'), 'F'),
+
+('Marcos Silva', 'marcos.silva@example.com', '21999887766', '1988-07-25', 'Rio de Janeiro', 'Rio de Janeiro', '20040002', '98765432100', 'Av. Atlântica, 450', MD5('12345'), 'M'),
+
+('Juliana Costa', 'juliana.costa@example.com', '31988776655', '2000-11-09', 'Minas Gerais', 'Belo Horizonte', '30140071', '45678912300', 'Rua Goiás, 89', MD5('12345'), 'F'),
+
+('Pedro Almeida', 'pedro.almeida@example.com', '41977665544', '1992-02-18', 'Paraná', 'Curitiba', '80010020', '65498732100', 'Av. Sete de Setembro, 980', MD5('12345'), 'M'),
+
+('Carla Menezes', 'carla.menezes@example.com', '61966554433', '1999-05-03', 'Distrito Federal', 'Brasília', '70040900', '85236974100', 'SQN 205, Bloco C', MD5('12345'), 'F');
 
 
-INSERT INTO usuario (nome, email, telefone, rg, endereco, senha) VALUES
-('João Silva', 'joao@email.com', '11911112222', '1234567', 'Rua A, 10', MD5('12345')),
-('Maria Oliveira', 'maria@email.com', '11933334444', '7654321', 'Rua B, 20', MD5('12345')),
-('Pedro Santos', 'pedro@email.com', '11955556666', '9876543', 'Rua C, 30', MD5('12345')),
-('Juliana Costa', 'juliana@email.com', '11977778888', '1928374', 'Rua D, 40', MD5('12345')),
-('Lucas Almeida', 'lucas@email.com', '11988889999', '5647382', 'Rua E, 50', MD5('12345')),
-('Fernanda Lima', 'fernanda@email.com', '11999990000', '8372619', 'Rua F, 60', MD5('12345')),
-('Eduardo Rocha', 'eduardo@email.com', '11912121212', '1928374', 'Rua G, 70', MD5('12345')),
-('Carla Martins', 'carla@email.com', '11934343434', '9182736', 'Rua H, 80', MD5('12345')),
-('Rafael Souza', 'rafael@email.com', '11956565656', '5647382', 'Rua I, 90', MD5('12345')),
-('Patrícia Gomes', 'patricia@email.com', '11978787878', '8372619', 'Rua J, 100', MD5('12345'));
 
-INSERT INTO espaco (tipo, capacidade, localidade, status, id_estabelecimento) VALUES
-('Quadra de Futebol', 20, 'Pátio Principal', 'disponível', 1),
-('Quadra de Vôlei', 12, 'Bloco B', 'disponível', 1),
-('Sala de Reunião', 8, 'Bloco A - 2º andar', 'indisponível', 2),
-('Auditório', 100, 'Bloco C', 'disponível', 2),
-('Piscina', 30, 'Área Externa', 'disponível', 3),
-('Campo de Tênis', 10, 'Bloco D', 'indisponível', 4),
-('Sala de Treinamento', 15, 'Bloco E', 'disponível', 5),
-('Ginásio Coberto', 50, 'Bloco F', 'disponível', 6),
-('Quadra Poliesportiva', 25, 'Pátio Lateral', 'disponível', 7),
-('Auditório Principal', 120, 'Bloco G', 'indisponível', 8);
+INSERT INTO estabelecimento
+(nome_est, tipo, endereco, numero, bairro, cep, cidade, complemento, uf, status, inicio, termino, disponibilidade, id_administrador)
+VALUES
+('Estabelecimento 1', 'Vôlei', 'Rua Um', 10, 'Centro', '01001-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 1),
+('Estabelecimento 2', 'Futebol', 'Rua Dois', 20, 'Centro', '01002-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 2),
+('Estabelecimento 3', 'Basquete', 'Rua Três', 30, 'Centro', '01003-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 3),
+('Estabelecimento 4', 'Poliesportivo', 'Rua Quatro', 40, 'Centro', '01004-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 4),
+('Estabelecimento 5', 'Outros', 'Rua Cinco', 50, 'Centro', '01005-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 5),
+('Estabelecimento 6', 'Vôlei', 'Rua Seis', 60, 'Centro', '01006-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 6),
+('Estabelecimento 7', 'Piscina', 'Rua Sete', 70, 'Centro', '01007-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 7);
 
-INSERT INTO reserva (data, horario, status, id_usuario, id_espaco, id_administrador) VALUES
-('2025-10-20', '10:00:00', 'pendente', 1, 1, 1),
-('2025-10-21', '14:00:00', 'concluída', 2, 2, 1),
-('2025-10-22', '09:30:00', 'pendente', 3, 3, 2),
-('2025-10-23', '16:00:00', 'cancelada', 4, 4, 2),
-('2025-10-24', '11:00:00', 'pendente', 5, 5, 3),
-('2025-10-25', '15:30:00', 'concluída', 6, 6, 4),
-('2025-10-26', '08:00:00', 'pendente', 7, 7, 5),
-('2025-10-27', '13:00:00', 'cancelada', 8, 8, 6),
-('2025-10-28', '10:30:00', 'concluída', 9, 9, 7),
-('2025-10-29', '17:00:00', 'pendente', 10, 10, 8);
+SELECT id_estabelecimento, nome_est FROM estabelecimento;
 
-INSERT INTO estabelecimento (
-    nome, endereco, numero, bairro, cep, cidade, complemento, uf, status, inicio, termino, disponibilidade, id_administrador
-) VALUES
-('Clube Alocatec', 'Av. Brasil', 1200, 'Centro', '12345-678', 'São Paulo', 'Próximo ao metrô', 'SP', 'Ativo', '08:00:00', '22:00:00', 'Seg-Sex', 1),
-('Arena Esportiva Sol Nascente', 'Rua das Palmeiras', 45, 'Jardim Tropical', '98765-432', 'Rio de Janeiro', NULL, 'RJ', 'Ativo', '07:00:00', '23:00:00', 'Seg-Dom', 1),
-('Espaço Verde', 'Av. Beira Mar', 500, 'Praia Grande', '11223-445', 'Fortaleza', 'Em frente ao quiosque 12', 'CE', 'Inativo', '09:00:00', '20:00:00', 'Sab-Dom', 1);
+INSERT INTO espaco 
+(capacidade, cobertura, largura, comprimento, descricao_adicional, localidade, status, id_estabelecimento)
+VALUES
+( 12, 'Sim', '9m', '18m', 'Quadra oficial com piso emborrachado', 'Bloco A', 'disponível', 1),
+( 22, 'Não', '45m', '90m', 'Campo gramado padrão amador', 'Campo 1', 'disponível', 2),
+( 10, 'Sim', '15m', '28m', 'Quadra com tabela profissional e piso polido', 'Ginásio 1', 'indisponível', 3),
+( 30, 'Não', '25m', '50m', 'Piscina semiolímpica com 6 raias', 'Área Aquática', 'disponível', 4),
+( 25, 'Sim', '20m', '40m', 'Espaço multiuso para diversas modalidades', 'Ginásio 2', 'disponível', 5),
+( 40, 'Sim', '10m', '15m', 'Área destinada a atividades gerais e eventos', 'Sala Multiuso', 'disponível', 6),
+( 18, 'Não', '30m', '60m', 'Campo society com grama sintética', 'Campo 2', 'disponível', 7);
 
-INSERT INTO espaco (
-    tipo, capacidade, cobertura, largura, comprimento, localidade, status, id_estabelecimento
-) VALUES
-('Quadra Poliesportiva', 50, 'Sim', '30', '50', 'Bloco A', 'disponível', 1),
-('Salão de Festas', 100, 'Sim', '20', '40', 'Prédio Central', 'disponível', 1),
-('Campo de Futebol', 200, 'Não', '90', '120', 'Área Externa', 'indisponível', 2),
-('Piscina Olímpica', 80, 'Não', '25', '50', 'Complexo Aquático', 'disponível', 2),
-('Auditório', 60, 'Sim', '15', '30', 'Bloco B', 'disponível', 3);
+INSERT INTO reserva 
+(data, horario_inicio, horario_fim, status, capacidade, id_usuario, id_estabelecimento, id_espaco, id_administrador)
+VALUES
+('2025-01-10', '08:00:00', '09:00:00', 'pendente', 12, 1, 1, 1, 1),
 
-  SELECT tipo, capacidade, cobertura, largura, comprimento, 
-    localidade, E.id_estabelecimento
-    FROM espaco E
-    INNER JOIN estabelecimento T ON E.id_estabelecimento = T.id_estabelecimento
-    WHERE T.id_estabelecimento = 1;
+('2025-01-12', '09:00:00', '10:30:00', 'concluída', 22, 2, 2, 2, 1),
 
-SELECT 
-    R.id_reserva,
-    R.data,
-    R.horario,
-    R.status,
-    U.nome AS usuario,
-    E.tipo AS espaco,
-    A.nome AS administrador
-FROM reserva R
-INNER JOIN usuario U ON R.id_usuario = U.id_usuario
-INNER JOIN espaco E ON R.id_espaco = E.id_espaco
-INNER JOIN administrador A ON R.id_administrador = A.id_administrador;
+('2025-01-15', '14:00:00', '15:00:00', 'pendente', 10, 3, 3, 3, 2),
 
-select * from estabelecimento;
+('2025-01-20', '18:00:00', '19:30:00', 'cancelada', 30, 5, 4, 4, 1),
 
-  SELECT nome, endereco, numero, bairro, cep, cidade, 
-           complemento, uf, inicio, termino, disponibilidade, status
-    FROM estabelecimento
-    WHERE id_estabelecimento = $id_estabelecimento;
-    
-	SELECT tipo, capacidade, cobertura, largura, comprimento, 
-    localidade, E.id_estabelecimento
-    FROM espaco E
-    INNER JOIN estabelecimento T ON E.id_estabelecimento = T.id_estabelecimento
-    WHERE T.id_estabelecimento = 1;
+('2025-01-22', '07:30:00', '09:00:00', 'pendente', 18, 4, 5, 5, 2);
 
-select id_administrador from administrador;
-DESCRIBE espaco;
+CREATE TABLE documentos (
+    id_usuario INT PRIMARY KEY,
+    rg_foto VARCHAR(255),
+    endereco_foto VARCHAR(255),
+    selfie_rg VARCHAR(255),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario)
+);
+
+INSERT INTO documentos (id_usuario, rg_foto, endereco_foto, selfie_rg)
+VALUES
+(1, 'uploads/rg_1.jpg', 'uploads/endereco_1.jpg', 'uploads/selfie_1.jpg'),
+(2, 'uploads/rg_2.png', 'uploads/endereco_2.png', 'uploads/selfie_2.png'),
+(3, 'docs/rg_3.jpeg', 'docs/endereco_3.jpeg', 'docs/selfie_3.jpeg');

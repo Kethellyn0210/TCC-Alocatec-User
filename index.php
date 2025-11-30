@@ -61,9 +61,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <input type="password" id="senha" name="senha" class="input" placeholder="Digite sua senha" required>
 
             <a class="cadastro" href="./pages/cadastro/cadastro.php">Cadastre-se</a>
-
+        <div class="btn">
            <button class="btn-enter" type="submit">ENTRAR</button>
-
+        </div>
 
             <a href="#" class="recupere-senha">Esqueceu sua senha?</a>
         </form>

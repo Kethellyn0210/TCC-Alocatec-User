@@ -117,7 +117,7 @@ a:hover {
 .page {
   width: 90%;
   max-width: 900px;
-  margin: 20px auto 10px auto;
+  margin: 20px auto 30px auto;
   justify-content: space-between;
 }
 

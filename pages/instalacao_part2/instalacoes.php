@@ -56,12 +56,7 @@ $usuario = Store::get('usuario');
       <h1>Busca por Esportes</h1>
       <p>Busque por seu esporte favorito.</p>
     </div>
-
-        <div class="pesquisa">
-            <img src="img/lupa.png">
-            <input type="text" placeholder="Pesquise Nome do Esporte">
-        </div>
-
+    
         <div class="page">
             <h2>Instalações</h2>
         </div>
