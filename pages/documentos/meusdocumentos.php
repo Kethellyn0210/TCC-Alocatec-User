@@ -25,10 +25,10 @@ $sql = "SELECT * FROM documentos WHERE id_usuario = '$id_usuario'";
 
 $result = mysqli_query($conn, $sql);
 
-$doc = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,38 +36,39 @@ $doc = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="meusdocumentos.css">
     <link rel="icon" href="img/logo.png">
 
-<style>
-.resultado-Sucesso,
-.resultado-Erro {
-    width: 100%;
-    max-width: 1200px;
-    margin: 10px auto;
-    margin-bottom: 40px;
-    padding: 20px 15px;
-    border-radius: 10px;
-    font-size: 15px;
-    box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-}
+    <style>
+        .resultado-Sucesso,
+        .resultado-Erro {
+            width: 100%;
+            max-width: 1200px;
+            margin: 10px auto;
+            margin-bottom: 40px;
+            padding: 20px 15px;
+            border-radius: 10px;
+            font-size: 15px;
+            box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+        }
 
-/* SUCESSO */
-.resultado-Sucesso {
-    background-color: #e6ffee;
-    border-left: 6px solid #00c853;
-    color: #007a33;
-    font-size: 1rem;
-    font-weight: 600;
-}
+        /* SUCESSO */
+        .resultado-Sucesso {
+            background-color: #e6ffee;
+            border-left: 6px solid #00c853;
+            color: #007a33;
+            font-size: 1rem;
+            font-weight: 600;
+        }
 
-/* ERRO */
-.resultado-Erro {
-    background-color: #ecc1c1ff;
-    border-left: 6px solid #e53935;
-    color: #b71c1c;
-    font-size: 1rem;
-    font-weight: 600;
-}
-</style>
+        /* ERRO */
+        .resultado-Erro {
+            background-color: #ecc1c1ff;
+            border-left: 6px solid #e53935;
+            color: #b71c1c;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+    </style>
 </head>
+
 <body>
 
     <aside class="sidebar">
@@ -101,7 +102,7 @@ $doc = mysqli_fetch_assoc($result);
     <main class="main-content">
         <div class="documentos">
 
-            
+
             <!-- MENSAGENS DE ERRO OU SUCESSO -->
             <?php if (isset($_SESSION['upload_sucesso'])): ?>
                 <div class="resultado-Sucesso">
@@ -160,4 +161,5 @@ $doc = mysqli_fetch_assoc($result);
         </div>
     </main>
 </body>
+
 </html>

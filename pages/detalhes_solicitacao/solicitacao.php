@@ -21,6 +21,7 @@ SELECT
     R.horario_fim,
     R.status,
     R.capacidade,
+    R.motivo_recusa,
 
     U.nome_usu AS nome_usuario,
     U.email AS email_usuario,
@@ -51,6 +52,8 @@ WHERE R.id_reserva = $id_reserva
 
 $result = mysqli_query($conexao_servidor_bd, $sql);
 
+
+
 if (!$result) {
     die("Erro ao buscar os dados: " . mysqli_error($conexao_servidor_bd));
 }
@@ -59,6 +62,7 @@ $info = mysqli_fetch_assoc($result);
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,17 +91,17 @@ $info = mysqli_fetch_assoc($result);
             </ul>
         </nav>
 
-<div class="user" data-usuario="<?= $usuario['id'] ?>"
-     onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
-    <div class="avatar"></div>
+        <div class="user" data-usuario="<?= $usuario['id'] ?>"
+            onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
+            <div class="avatar"></div>
 
-    <div class="user-info">
-        <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
-        <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
-    </div>
+            <div class="user-info">
+                <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
+                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
+            </div>
 
-    <a href="../../login/logout.php" class="logout">SAIR</a>
-</div>
+            <a href="../../login/logout.php" class="logout">SAIR</a>
+        </div>
     </aside>
 
     <main class="content">
@@ -122,17 +126,23 @@ $info = mysqli_fetch_assoc($result);
             <div class="card-1">
                 <div class="card-detalhe">
 
-                    <div class="title-card"><h4>Data Escolhida</h4></div>
+                    <div class="title-card">
+                        <h4>Data Escolhida</h4>
+                    </div>
                     <div class="info">
                         <p><?= date("d/m/Y", strtotime($info['data'])) ?></p>
                     </div>
 
-                    <div class="title-card"><h4>Hora de Entrada/Saída</h4></div>
+                    <div class="title-card">
+                        <h4>Hora de Entrada/Saída</h4>
+                    </div>
                     <div class="info">
                         <p><?= $info['horario_inicio'] . " - " . $info['horario_fim'] ?></p>
                     </div>
 
-                    <div class="title-card"><h4>Quantidade de Participantes</h4></div>
+                    <div class="title-card">
+                        <h4>Quantidade de Participantes</h4>
+                    </div>
                     <div class="info">
                         <p><?= htmlspecialchars($info['capacidade']) ?> Participantes</p>
                     </div>
@@ -174,25 +184,46 @@ $info = mysqli_fetch_assoc($result);
         <div class="card">
             <div class="card-detalhe">
 
-                <div class="title-card"><h4>Data do Agendamento</h4></div>
+                <div class="title-card">
+                    <h4>Data do Agendamento</h4>
+                </div>
                 <div class="info">
                     <p><?= date("d/m/Y", strtotime($info['data'])) ?></p>
                 </div>
 
                 <br>
 
-                <div class="title-card"><h4>Data e Hora da Solicitação</h4></div>
+                <div class="title-card">
+                    <h4>Data e Hora da Solicitação</h4>
+                </div>
                 <div class="info">
                     <p><?= date("d/m/Y \à\s H:i:s") ?></p>
                 </div>
 
             </div>
 
-<div class="card-info">
-    <div class="status-box <?= htmlspecialchars($info['status']) ?>">
-        <?= ucfirst($info['status']) ?>
-    </div>
+            <div class="card-info">
+                <div class="status-box <?= htmlspecialchars($info['status']) ?>">
+                    <?= ucfirst($info['status']) ?>
+                </div>
 
+                <?php
+                $motivos = [
+                    1 => "Quantidade de pessoa ultrapassa limite",
+                    2 => "Foto de RG ilegível",
+                    3 => "Foto de Endereço ilegível",
+                    4 => "Foto de Selfie com RG distorcida",
+                    5 => "Falta de todos os Documentos",
+                    6 => "Outros"
+                ];
+
+                if ($info['status'] === 'cancelada' && isset($motivos[$info['motivo_recusa']])) {
+                    echo "
+        <div class='motivo-recusa'>
+            Motivo da recusa: <strong>" . $motivos[$info['motivo_recusa']] . "</strong>
+        </div>";
+                }
+                ?>
 
                 <div class="admin-info">
                     <img src="https://cdn-icons-png.flaticon.com/512/4333/4333609.png">
@@ -200,11 +231,12 @@ $info = mysqli_fetch_assoc($result);
                         Administrador: <?= htmlspecialchars($info['nome_administrador']) ?>
                     </div>
                 </div>
-
             </div>
+
         </div>
 
     </main>
 
 </body>
+
 </html>

@@ -24,7 +24,8 @@ if (!isset($_POST['enviar'])) {
 // -----------------------------------------------
 // FUNÇÃO PARA VALIDAR ARQUIVOS
 // -----------------------------------------------
-function validarArquivo($campo, &$erros) {
+function validarArquivo($campo, &$erros)
+{
     if (!isset($_FILES[$campo]) || $_FILES[$campo]['error'] === UPLOAD_ERR_NO_FILE) {
         $erros[] = "O arquivo '$campo' não foi enviado.";
         return false;
@@ -62,7 +63,8 @@ if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
 
-function salvarArquivo($campo, $uploadDir) {
+function salvarArquivo($campo, $uploadDir)
+{
     $nomeTmp = $_FILES[$campo]['tmp_name'];
     $nomeOriginal = basename($_FILES[$campo]['name']);
     $novoNome = uniqid() . "-" . $nomeOriginal;
@@ -73,9 +75,9 @@ function salvarArquivo($campo, $uploadDir) {
     return $novoNome;
 }
 
-$rg_foto       = salvarArquivo("rg_foto", $uploadDir);
+$rg_foto = salvarArquivo("rg_foto", $uploadDir);
 $endereco_foto = salvarArquivo("endereco_foto", $uploadDir);
-$selfie_rg     = salvarArquivo("selfie_rg", $uploadDir);
+$selfie_rg = salvarArquivo("selfie_rg", $uploadDir);
 
 // -----------------------------------------------
 // 3) INSERIR OU ATUALIZAR NO BANCO
@@ -91,7 +93,7 @@ if (mysqli_num_rows($result) > 0) {
                 endereco_foto = '$endereco_foto',
                 selfie_rg = '$selfie_rg'
             WHERE id_usuario = '$id_usuario'";
-    
+
 } else {
 
     // Inserir novo
