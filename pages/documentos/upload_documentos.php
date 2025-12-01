@@ -107,7 +107,8 @@ mysqli_query($conn, $sql);
 // 4) REDIRECIONAR COM SUCESSO
 // -----------------------------------------------
 $_SESSION['upload_sucesso'] = "Documentos enviados com sucesso!";
+$_SESSION['documentos_enviados'] = true; // <<< AQUI FAZ SUMIR O AVISO NO PERFIL
+
 header("Location: meusdocumentos.php");
 exit();
-
 ?>

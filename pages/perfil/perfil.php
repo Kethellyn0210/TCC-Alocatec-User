@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once '../../login/login.php';
 require_once '../../database/conexao_bd_mysql.php';
 
@@ -9,13 +10,14 @@ if (!Store::isLogged()) {
 
 $usuario = Store::get('usuario');
 
+// Verifica ID do usuário
 if (!isset($usuario['id'])) {
     die("Erro: usuário não encontrado na sessão.");
 }
 
 $id = intval($usuario['id']);
 
-// Prepared statement
+// Consulta dados do usuário
 $stmt = mysqli_prepare($conexao_servidor_bd, "SELECT * FROM usuario WHERE id_usuario = ?");
 if (!$stmt) {
     die("Erro ao preparar query: " . mysqli_error($conexao_servidor_bd));
@@ -37,9 +39,9 @@ if (!$dados) {
 
 mysqli_stmt_close($stmt);
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,10 +83,15 @@ mysqli_stmt_close($stmt);
     <div class="content-wrapper">
         <div class="profile-container">
 
-            <div class="warning">
-                <span>Verificação Pendente</span>
-                <button class="inline-btn">Enviar documentos</button>
-            </div>
+            <?php if (!isset($_SESSION['documentos_enviados'])): ?>
+                <div class="warning" id="verificacaoBox">
+                    <span>Verificação Pendente</span>
+                    <button class="inline-btn" onclick="window.location.href='../documentos/meusdocumentos.php'"
+                        onclick="removerVerificacao()">
+                        Enviar documentos
+                    </button>
+                </div>
+            <?php endif; ?>
 
             <div class="section-title">Dados Pessoais</div>
 
@@ -101,7 +108,7 @@ mysqli_stmt_close($stmt);
 
                 <div class="form-group">
                     <label>Data de Nascimento</label>
-                    <input  value="<?= htmlspecialchars($dados['data_nas']) ?>" />
+                    <input value="<?= htmlspecialchars($dados['data_nas']) ?>" />
                 </div>
 
                 <div class="form-group">
@@ -147,17 +154,15 @@ mysqli_stmt_close($stmt);
                     <input type="password" value="********" disabled />
                 </div>
 
-                <div class="actions">
-                    <button class="alterar-senha">Alterar</button>
-                </div>
             </div>
-
-            <div class="actions">
-                <button class="save-btn"><a class="link" href="./meusdocumentos.php">Salvar</a></button>
-                <button class="cancel-btn">Cancelar</button>
-            </div>
+            <script>
+                function removerVerificacao() {
+                    document.getElementById('verificacaoBox').style.display = "none";
+                }
+            </script>
 
         </div>
     </div>
 </body>
+
 </html>

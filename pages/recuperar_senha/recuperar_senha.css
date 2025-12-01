@@ -1,0 +1,166 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+body {
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+}
+
+hr {
+  width: 100%;
+  margin-top: 20px;
+}
+
+/* CSS PARA LINKS */
+.link {
+  border: none;
+  text-decoration: none;
+  color: #fff;
+}
+
+link:visited {
+  color: white;
+}
+
+link:active {
+  color: white;
+}
+
+link:hover {
+  color: white;
+}
+
+/* FIM DO CSS PARA LINKS */
+
+/* -----------------------------------------
+   SIDEBAR
+------------------------------------------ */
+
+.sidebar {
+  width: 320px;
+  background: #0e2749;
+  color: white;
+  padding: 140px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo img {
+  width: 80px;
+  justify-content: center;
+}
+
+.logo h2 {
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.title {
+  font-size: 40px;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  font-weight: 200;
+}
+
+.subtitle {
+  margin-bottom: 10px;
+}
+
+.btn-login {
+  display: inline-block;
+  margin: 15px 0;
+  padding: 12px 30px;
+  background: #d9d9d9;
+  border-radius: 25px;
+  color: black;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 45px 0;
+}
+
+.divider span {
+  height: 1px;
+  width: 100px;
+  background: white;
+}
+
+.divider p {
+  margin: 0 10px;
+}
+
+.socials img {
+  width: 30px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+/* -----------------------------------------
+   MAIN CONTENT
+------------------------------------------ */
+
+.main {
+  flex: 1;
+  padding: 60px 100px;
+}
+
+.main h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.main .desc {
+  font-size: 17px;
+  max-width: 600px;
+  line-height: 1.5;
+  color: #444;
+  margin-bottom: 40px;
+}
+
+form {
+  width: 80%;
+  max-width: 700px;
+}
+
+form label {
+  font-weight: 600;
+}
+
+form input {
+  width: 100%;
+  padding: 12px 20px;
+  border-radius: 25px;
+  border: none;
+  background: #f4f4f4;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.15);
+  margin-top: 5px;
+  margin-bottom: 30px;
+}
+
+.btn-enviar {
+  padding: 12px 50px;
+  border-radius: 25px;
+  background: #d9d9d9;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btn-enviar:hover {
+  opacity: 0.9;
+}

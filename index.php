@@ -22,6 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'email' => $dados['email']
       ]);
 
+      unset($_SESSION['documentos_enviados']);
+
       header("Location: ./pages/instalacoes/instalacoes.php");
       exit();
     } else {
@@ -33,58 +35,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ALOCATEC - Login</title>
   <link rel="stylesheet" href="./index.css">
   <link rel="icon" href="./img/logo.png">
   <link rel="shortcut icon" href="./img/logo.png">
 </head>
+
 <body>
 
-<div class="container">
+  <div class="container">
 
-<aside class="left-panel">
+    <aside class="left-panel">
 
-        <div class="logo">
-            <img src="./img/logo.png" alt="Logo">
-        </div>
-            <h2>ALOCATEC</h2>
-            <hr></hr>
+      <div class="logo">
+        <img src="./img/logo.png" alt="Logo">
+      </div>
+      <h2>ALOCATEC</h2>
+      <hr>
+      </hr>
 
-        <form class="form-box" method="POST" action="">
-            <label for="email" class="rotulo">Email</label>
-            <input type="text" id="email" name="email" class="input" placeholder="Digite seu email" required>
+      <form class="form-box" method="POST" action="">
+        <label for="email" class="rotulo">Email</label>
+        <input type="text" id="email" name="email" class="input" placeholder="Digite seu email" required>
 
-            <label for="senha" class="rotulo">Senha</label>
-            <input type="password" id="senha" name="senha" class="input" placeholder="Digite sua senha" required>
+        <label for="senha" class="rotulo">Senha</label>
+        <input type="password" id="senha" name="senha" class="input" placeholder="Digite sua senha" required>
 
-            <a class="cadastro" href="./pages/cadastro/cadastro.php">Cadastre-se</a>
+        <a class="cadastro" href="./pages/cadastro/cadastro.php">Cadastre-se</a>
         <div class="btn">
-           <button class="btn-enter" type="submit">ENTRAR</button>
+          <button class="btn-enter" type="submit">ENTRAR</button>
         </div>
 
-            <a href="#" class="recupere-senha">Esqueceu sua senha?</a>
-        </form>
+        <a href="./pages/recuperar_senha/recuperar_senha.php" class="recupere-senha">Esqueceu sua senha?</a>
+      </form>
 
-        <div class="divider">
-            <span></span>
-            <p>OU</p>
-            <span></span>
-        </div>
+      <div class="divider">
+        <span></span>
+        <p>OU</p>
+        <span></span>
+      </div>
 
-        <div class="social-icons">
-            <img src="./img/facebook.png" alt="Facebook">
-            <img src="./img/google.png" alt="Google">
-            <img src="./img/instagram.png" alt="Instagram">
-        </div>
+      <div class="social-icons">
+        <img src="./img/facebook.png" alt="Facebook">
+        <img src="./img/google.png" alt="Google">
+        <img src="./img/instagram.png" alt="Instagram">
+      </div>
 
     </aside>
 
     <section class="right-panel">
-        <img src="./img/foto_login.jpg" alt="" class="foto_login">
+      <img src="./img/foto_login.jpg" alt="" class="foto_login">
     </section>
-</div>
+  </div>
 </body>
+
 </html>

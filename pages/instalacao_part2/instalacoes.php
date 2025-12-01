@@ -10,6 +10,7 @@ $usuario = Store::get('usuario');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,95 +31,95 @@ $usuario = Store::get('usuario');
             <hr>
         </div>
 
-<nav>
-      <ul>
-          <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
-          <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
-          <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
-      </ul>
-    </nav>
+        <nav>
+            <ul>
+                <li><a href="../instalacoes/instalacoes.php">INSTALAÇÕES</a></li>
+                <li><a href="../solicitacoes/solicitacoes.php">MINHAS SOLICITAÇÕES</a></li>
+                <li><a href="../documentos/meusdocumentos.php">MEUS DOCUMENTOS</a></li>
+            </ul>
+        </nav>
 
-<div class="user" data-usuario="<?= $usuario['id'] ?>"
-     onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
-    <div class="avatar"></div>
+        <div class="user" data-usuario="<?= $usuario['id'] ?>"
+            onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
+            <div class="avatar"></div>
 
-    <div class="user-info">
-        <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
-        <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
-    </div>
+            <div class="user-info">
+                <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
+                <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
+            </div>
 
-    <a href="../../login/logout.php" class="logout">SAIR</a>
-</div>
+            <a href="../../login/logout.php" class="logout">SAIR</a>
+        </div>
     </aside>
 
     <div class="content">
-    <div class="page">
-      <h1>Busca por Esportes</h1>
-      <p>Busque por seu esporte favorito.</p>
-    </div>
-    
+        <div class="page">
+            <h1>Busca por Esportes</h1>
+            <p>Busque por seu esporte favorito.</p>
+        </div>
+
         <div class="page">
             <h2>Instalações</h2>
         </div>
-<?php 
-require_once '../../database/conexao_bd_mysql.php';
+        <?php
+        require_once '../../database/conexao_bd_mysql.php';
 
-$limite = 3;
+        $limite = 3;
 
-// Página atual
-$onde_estou = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
-$linha_mysql = ($onde_estou - 1) * $limite;
+        // Página atual
+        $onde_estou = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+        $linha_mysql = ($onde_estou - 1) * $limite;
 
-// Pegando filtro enviado
-$tipo_espaco = $_GET['tipo_espaco'] ?? null;
+        // Pegando filtro enviado
+        $tipo_espaco = $_GET['tipo_espaco'] ?? null;
 
-if ($tipo_espaco) {
-    // Remove colchetes caso existam
-    $tipo_espaco = str_replace(['[', ']'], '', $tipo_espaco);
+        if ($tipo_espaco) {
+            // Remove colchetes caso existam
+            $tipo_espaco = str_replace(['[', ']'], '', $tipo_espaco);
 
-    // Segurança
-    $tipo_espaco = mysqli_real_escape_string($conexao_servidor_bd, $tipo_espaco);
-}
+            // Segurança
+            $tipo_espaco = mysqli_real_escape_string($conexao_servidor_bd, $tipo_espaco);
+        }
 
 
-// Contagem total (com filtro)
-if ($tipo_espaco) {
-    $total_query = "
+        // Contagem total (com filtro)
+        if ($tipo_espaco) {
+            $total_query = "
         SELECT COUNT(*) AS total
         FROM estabelecimento 
         WHERE tipo = '" . mysqli_real_escape_string($conexao_servidor_bd, $tipo_espaco) . "'
     ";
-} else {
-    $total_query = "SELECT COUNT(*) AS total FROM estabelecimento";
-}
+        } else {
+            $total_query = "SELECT COUNT(*) AS total FROM estabelecimento";
+        }
 
-$total_result = mysqli_query($conexao_servidor_bd, $total_query);
-$total_row = mysqli_fetch_assoc($total_result);
-$total = $total_row['total'];
-$total_pag = ceil($total / $limite);
+        $total_result = mysqli_query($conexao_servidor_bd, $total_query);
+        $total_row = mysqli_fetch_assoc($total_result);
+        $total = $total_row['total'];
+        $total_pag = ceil($total / $limite);
 
-if ($tipo_espaco) {
-    $sql = "
+        if ($tipo_espaco) {
+            $sql = "
         SELECT DISTINCT id_estabelecimento, nome_est, endereco, numero, 
                bairro, cidade, uf, tipo
         FROM estabelecimento 
         WHERE tipo = '$tipo_espaco'
         LIMIT $linha_mysql, $limite
     ";
-} else {
-    $sql = "
+        } else {
+            $sql = "
         SELECT id_estabelecimento, nome_est, endereco, numero, bairro, cidade, uf, tipo
         FROM estabelecimento 
         LIMIT $linha_mysql, $limite
     ";
-}
+        }
 
-$instalacao = mysqli_query($conexao_servidor_bd, $sql);
+        $instalacao = mysqli_query($conexao_servidor_bd, $sql);
 
-if ($instalacao && mysqli_num_rows($instalacao) > 0) {
-    while ($value = mysqli_fetch_assoc($instalacao)) {
-        $id_estabelecimento = htmlspecialchars($value['id_estabelecimento'] ?? '');
-        echo "
+        if ($instalacao && mysqli_num_rows($instalacao) > 0) {
+            while ($value = mysqli_fetch_assoc($instalacao)) {
+                $id_estabelecimento = htmlspecialchars($value['id_estabelecimento'] ?? '');
+                echo "
         <div class='solicitacao-card' data-id='$id_estabelecimento' 
              onclick=\"window.location.href='../busca/buscainformativo.php?id=$id_estabelecimento'\">
             
@@ -148,30 +149,31 @@ if ($instalacao && mysqli_num_rows($instalacao) > 0) {
 
             <div class='img-container'>
                 <div class='img-wrap'>
-                    <img src='img/img.webp'>
+                    <img src='img/piscina.jpg'>
                 </div>
             </div>
 
         </div>
         ";
-    }
-} else {
-    echo "<div class='erro'>
+            }
+        } else {
+            echo "<div class='erro'>
         <h2>Nenhuma instalação encontrada</h2>
     </div>";
-}
+        }
 
-// PAGINAÇÃO
-?>
-<div class="pagination-dots">
-    <?php for ($i = 1; $i <= $total_pag; $i++): ?>
-        <?php 
-        $class = ($i == $onde_estou) ? 'active' : ''; 
-        $extra = $tipo_espaco ? "&tipo_espaco=$tipo_espaco" : "";
+        // PAGINAÇÃO
         ?>
-        <a href="?page=<?php echo $i . $extra; ?>" class="dot <?php echo $class; ?>"></a>
-    <?php endfor; ?>
-</div>
+        <div class="pagination-dots">
+            <?php for ($i = 1; $i <= $total_pag; $i++): ?>
+                <?php
+                $class = ($i == $onde_estou) ? 'active' : '';
+                $extra = $tipo_espaco ? "&tipo_espaco=$tipo_espaco" : "";
+                ?>
+                <a href="?page=<?php echo $i . $extra; ?>" class="dot <?php echo $class; ?>"></a>
+            <?php endfor; ?>
+        </div>
 
 </body>
+
 </html>

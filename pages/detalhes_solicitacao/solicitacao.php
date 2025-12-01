@@ -155,7 +155,7 @@ $info = mysqli_fetch_assoc($result);
                 <div class="card-detalhe">
                     <div class="title-card">Localização</div>
 
-                    <img src="img/img.webp" class="img">
+                    <img src="img/volei.jpg" class="img">
                 </div>
 
                 <div class="card-detalhe">

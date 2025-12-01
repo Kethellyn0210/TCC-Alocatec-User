@@ -89,12 +89,15 @@ $result = mysqli_query($conn, $sql);
             </ul>
         </nav>
 
-        <div class="user">
+        <div class="user" data-usuario="<?= $usuario['id'] ?>"
+            onclick="window.location.href='../perfil/perfil.php?usuario=<?= $usuario['id'] ?>'">
             <div class="avatar"></div>
+
             <div class="user-info">
                 <p class="nome"><?= htmlspecialchars($usuario['nome_usu']) ?></p>
                 <p class="cargo"><?= htmlspecialchars($usuario['email']) ?></p>
             </div>
+
             <a href="../../login/logout.php" class="logout">SAIR</a>
         </div>
     </aside>
@@ -129,7 +132,9 @@ $result = mysqli_query($conn, $sql);
                     <label class="upload-label">Foto do Registro Geral (RG)</label>
                     <div class="upload-box">
                         <input type="file" name="rg_foto" id="rg_foto" hidden>
-                        <label for="rg_foto" class="btn-upload">Clique aqui para selecionar um arquivo</label>
+                        <label for="rg_foto" class="btn-upload">Clique aqui para selecionar um arquivo (Registro
+                            Geral)</label>
+                        <img id="preview-rg" class="preview-img">
                         <p class="nome-arquivo" id="nome-rg"></p>
                     </div>
                 </div>
@@ -139,7 +144,9 @@ $result = mysqli_query($conn, $sql);
                     <label class="upload-label">Foto do Comprovante de Endereço</label>
                     <div class="upload-box">
                         <input type="file" name="endereco_foto" id="endereco_foto" hidden>
-                        <label for="endereco_foto" class="btn-upload">Clique aqui para selecionar um arquivo</label>
+                        <label for="endereco_foto" class="btn-upload">Clique aqui para selecionar um arquivo
+                            (Comprovante Endereço)</label>
+                        <img id="preview-endereco" class="preview-img">
                         <p class="nome-arquivo" id="nome-endereco"></p>
                     </div>
                 </div>
@@ -147,9 +154,12 @@ $result = mysqli_query($conn, $sql);
                 <!-- Selfie com RG -->
                 <div class="upload-section">
                     <label class="upload-label">Selfie com RG</label>
-                    <div class="upload-box oval-box">
+                    <div class="upload-box">
                         <input type="file" name="selfie_rg" id="selfie_rg" hidden>
-                        <label for="selfie_rg" class="btn-upload-circle">Selfie com RG</label>
+                        <label for="selfie_rg" class="btn-upload">Clique aqui para selecionar um arquivo (Selfie e
+                            RG)</label>
+                        <img id="preview-selfie" class="preview-img">
+                        <p class="nome-arquivo" id="nome-selfie"></p>
                     </div>
                 </div>
 
@@ -159,6 +169,58 @@ $result = mysqli_query($conn, $sql);
 
             </form>
         </div>
+
+        <script>
+            function previewImage(input, imgPreviewId, nameFieldId) {
+                const file = input.files[0];
+                const preview = document.getElementById(imgPreviewId);
+                const nameField = document.getElementById(nameFieldId);
+
+                if (file) {
+                    nameField.innerText = file.name;
+                    preview.src = URL.createObjectURL(file);
+                    preview.style.display = "block";
+                } else {
+                    nameField.innerText = "";
+                    preview.src = "";
+                    preview.style.display = "none";
+                }
+            }
+
+            document.getElementById("rg_foto").addEventListener("change", function () {
+                previewImage(this, "preview-rg", "nome-rg");
+            });
+
+            document.getElementById("endereco_foto").addEventListener("change", function () {
+                previewImage(this, "preview-endereco", "nome-endereco");
+            });
+
+            document.getElementById("selfie_rg").addEventListener("change", function () {
+                previewImage(this, "preview-selfie", "nome-selfie");
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+
+                function ativarCliqueImg(imgSelector, inputSelector) {
+                    const img = document.querySelector(imgSelector);
+                    const input = document.querySelector(inputSelector);
+
+                    if (img && input) {
+                        img.addEventListener("click", () => {
+                            input.click();
+                        });
+                    }
+                }
+
+                ativarCliqueImg("#preview-rg", "#rg_foto");
+                ativarCliqueImg("#preview-endereco", "#endereco_foto");
+                ativarCliqueImg("#preview-selfie", "#selfie_rg");
+
+            });
+        </script>
+
     </main>
 </body>
 
