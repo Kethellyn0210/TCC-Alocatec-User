@@ -44,7 +44,7 @@ CREATE TABLE estabelecimento (
     FOREIGN KEY (id_administrador) REFERENCES administrador(id_administrador)
 );
 
-
+select * from estabelecimento;
 CREATE TABLE espaco (
     id_espaco INT AUTO_INCREMENT PRIMARY KEY,
     capacidade INT NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE espaco (
     FOREIGN KEY (id_estabelecimento) REFERENCES estabelecimento(id_estabelecimento)
 );
 
-drop table reserva;
+
 CREATE TABLE reserva (
     id_reserva INT AUTO_INCREMENT PRIMARY KEY,
     data DATE NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE reserva (
     horario_fim TIME NOT NULL,
     status ENUM('pendente', 'concluída', 'cancelada') NOT NULL,
     capacidade INT NOT NULL, 
-     data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
+	data_reserva DATETIME DEFAULT CURRENT_TIMESTAMP,
     id_usuario INT NOT NULL,
     id_estabelecimento INT NOT NULL,
     id_espaco INT NOT NULL,
@@ -76,7 +76,19 @@ CREATE TABLE reserva (
     FOREIGN KEY (id_espaco) REFERENCES espaco(id_espaco),
     FOREIGN KEY (id_administrador) REFERENCES administrador(id_administrador)
 );
-SELECT * FROM usuario WHERE id_usuario = 1;
+
+CREATE TABLE instalacao_fotos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_estabelecimento INT NOT NULL,
+    caminho_foto VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO instalacao_fotos (id_estabelecimento, caminho_foto)
+VALUES 
+(1, 'uploads_instalacoes/espaco1_foto1.jpg'),
+(1, 'uploads_instalacoes/espaco1_foto2.jpg'),
+(2, 'uploads_instalacoes/espaco2_foto1.png');
 
 INSERT INTO administrador (nome_adm, email, telefone, endereco, senha) VALUES
 ('Ana Souza', 'ana@admin.com', '11987654321', 'Rua das Flores, 100',MD5('12345')),
@@ -109,15 +121,16 @@ VALUES
 INSERT INTO estabelecimento
 (nome_est, tipo, endereco, numero, bairro, cep, cidade, complemento, uf, status, inicio, termino, disponibilidade, id_administrador)
 VALUES
-('Estabelecimento 1', 'Vôlei', 'Rua Um', 10, 'Centro', '01001-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 1),
-('Estabelecimento 2', 'Futebol', 'Rua Dois', 20, 'Centro', '01002-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 2),
-('Estabelecimento 3', 'Basquete', 'Rua Três', 30, 'Centro', '01003-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 3),
-('Estabelecimento 4', 'Poliesportivo', 'Rua Quatro', 40, 'Centro', '01004-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 4),
-('Estabelecimento 5', 'Outros', 'Rua Cinco', 50, 'Centro', '01005-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 5),
-('Estabelecimento 6', 'Vôlei', 'Rua Seis', 60, 'Centro', '01006-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 6),
-('Estabelecimento 7', 'Piscina', 'Rua Sete', 70, 'Centro', '01007-000', 'São Paulo', '', 'SP', 'Ativo', '07:00', '22:00', 'Seg-Dom', 7);
-
-SELECT id_estabelecimento, nome_est FROM estabelecimento;
+('Arena Paulista', 'Futebol', 'Rua Alfa', 100, 'Centro', '01010000', 'São Paulo', 'Próx. metrô', 'SP', 'Ativo', '08:00', '22:00', 'Seg-Sex', 1),
+('Quadra Rio Sport', 'Vôlei', 'Rua Beta', 200, 'Zona Sul', '22020000', 'Rio de Janeiro', 'Ao lado do parque', 'RJ', 'Ativo', '07:00', '23:00', 'Seg-Dom', 2),
+('Ginásio Minas Arena', 'Basquete', 'Rua Gama', 300, 'Centro', '30130000', 'Belo Horizonte', 'Entrada A', 'MG', 'Ativo', '09:00', '21:00', 'Seg-Sex', 3),
+('Complexo Curitiba', 'Piscina', 'Rua Delta', 400, 'Batel', '80440000', 'Curitiba', 'Portão 3', 'PR', 'Inativo', '06:00', '20:00', 'Seg-Dom', 4),
+('Parque Sul Esportes', 'Poliesportivo', 'Rua Épsilon', 500, 'Sul', '90050000', 'Porto Alegre', 'Quadra 2', 'RS', 'Ativo', '07:00', '22:00', 'Seg-Sex', 5),
+('Centro Atlântico', 'Outros', 'Rua Zeta', 600, 'Beira Mar', '88060000', 'Florianópolis', NULL, 'SC', 'Ativo', '08:00', '20:00', 'Sab-Dom', 6),
+('Arena Bahia Pro', 'Futebol', 'Rua Eta', 700, 'Comércio', '40070000', 'Salvador', 'Prédio Azul', 'BA', 'Ativo', '09:00', '23:00', 'Seg-Dom', 7),
+('Quadra Recife Top', 'Vôlei', 'Rua Teta', 800, 'Boa Viagem', '50080000', 'Recife', NULL, 'PE', 'Inativo', '06:00', '19:00', 'Seg-Sex', 8),
+('Estádio Goiás Center', 'Futebol', 'Rua Iota', 900, 'Centro', '74090000', 'Goiânia', 'Ao lado do estádio', 'GO', 'Ativo', '07:00', '21:00', 'Seg-Dom', 9),
+('Multi Esportes Campinas', 'Poliesportivo', 'Rua Kappa', 1000, 'Cambuí', '13010000', 'Campinas', NULL, 'SP', 'Ativo', '08:00', '22:00', 'Sab-Dom', 10);
 
 INSERT INTO espaco 
 (capacidade, cobertura, largura, comprimento, descricao_adicional, localidade, status, id_estabelecimento)
